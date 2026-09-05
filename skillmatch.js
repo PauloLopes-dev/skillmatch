@@ -1,72 +1,133 @@
 const prompt = require("prompt-sync")();
 
-function cadastrarCandidato() {
-  const candidato = {
-    nome: prompt("Nome do candidato:"),
+// =====================================================
+// 1. LISTA DE VAGAS
+// =====================================================
 
-    areaInteresse: prompt("Área de interesse:"),
+const vagasDisponiveis = [
+  // -------------------------
+  // FRONT END
+  // -------------------------
 
-    habilidades: prompt("Digite suas habilidades separadas por vírgula:")
-      .split(",")
-      .map((habilidade) => habilidade.trim()),
-
-    tempoExperiencia: Number(prompt("Tempo de experiência em anos:")),
-  };
-
-  return candidato;
-}
-
-// ------------------------------------------
-// VAGAS
-// ------------------------------------------
-
-const vagas = [
   {
-    cargo: "Desenvolvedor Front-end Júnior",
-
-    area: "Front-end",
-
-    habilidades: [
-      { nome: "HTML", peso: 10 },
-      { nome: "CSS", peso: 10 },
-      { nome: "JavaScript", peso: 20 },
-      { nome: "Git", peso: 5 },
-    ],
-
-    experienciaMinima: 0,
+    nome: "Front End Jr",
+    area: "Front End",
+    habilidades: ["html", "css", "javascript", "react"],
+    tempoExperiencia: 1,
   },
 
   {
-    cargo: "Desenvolvedor React Júnior",
-
-    area: "Front-end",
-
+    nome: "Front End Pleno",
+    area: "Front End",
     habilidades: [
-      { nome: "HTML", peso: 8 },
-      { nome: "CSS", peso: 8 },
-      { nome: "JavaScript", peso: 20 },
-      { nome: "React", peso: 20 },
-      { nome: "Git", peso: 4 },
+      "html",
+      "css",
+      "javascript",
+      "typescript",
+      "react",
+      "ui",
+      "ux",
     ],
+    tempoExperiencia: 3,
+  },
 
-    experienciaMinima: 1,
+  // -------------------------
+  // BACK END
+  // -------------------------
+
+  {
+    nome: "Back End Jr",
+    area: "Back End",
+    habilidades: ["javascript", "node.js", "express", "mysql"],
+    tempoExperiencia: 1,
   },
 
   {
-    cargo: "Desenvolvedor Front-end Pleno",
+    nome: "Back End Pleno",
+    area: "Back End",
+    habilidades: ["javascript", "node.js", "express", "mysql", "docker", "api"],
+    tempoExperiencia: 3,
+  },
 
-    area: "Front-end",
+  // -------------------------
+  // FULL STACK
+  // -------------------------
 
+  {
+    nome: "Full Stack Jr",
+    area: "Full Stack",
+    habilidades: ["html", "css", "javascript", "node.js", "mysql"],
+    tempoExperiencia: 1,
+  },
+
+  {
+    nome: "Full Stack Pleno",
+    area: "Full Stack",
     habilidades: [
-      { nome: "HTML", peso: 5 },
-      { nome: "CSS", peso: 5 },
-      { nome: "JavaScript", peso: 15 },
-      { nome: "React", peso: 15 },
-      { nome: "TypeScript", peso: 10 },
-      { nome: "Git", peso: 5 },
-      { nome: "Testes", peso: 5 },
+      "html",
+      "css",
+      "javascript",
+      "react",
+      "node.js",
+      "express",
+      "mysql",
+      "docker",
     ],
-
-    experienciaMinima: 2,
+    tempoExperiencia: 3,
   },
 ];
+
+// =====================================================
+// 2. CLASSE CANDIDATO
+// =====================================================
+
+class Candidato {
+  constructor(nome, habilidades, tempoExperiencia) {
+    this.nome = nome;
+
+    this.habilidades = habilidades;
+
+    this.tempoExperiencia = tempoExperiencia;
+  }
+}
+
+// =====================================================
+// 3. USO DE HERANÇA
+// =====================================================
+
+// Classe especiafica que herda de Candidato
+
+class CandidatoTecnologia extends Candidato {
+  constructor(nome, habilidades, tempoExperiencia) {
+    super(nome, habilidades, tempoExperiencia);
+
+    this.tipoPerfil = "Tecnologia";
+  }
+}
+
+// =====================================================
+// 4. CRIAR PERFIL DO CANDIDATO
+// =====================================================
+
+function criarPerfil() {
+  console.log("\n=================================");
+  console.log("       CRIAR PERFIL");
+  console.log("=================================\n");
+
+  const nome = prompt("Nome do candidato: ");
+
+  const habilidades = prompt("Digite suas habilidades separadas por vírgula: ")
+    .split(",")
+
+    // Remove espaços
+
+    .map((habilidade) => habilidade.trim().toLowerCase())
+
+    // Remove valores vazios
+
+    .filter((habilidade) => habilidade !== "");
+
+  const tempoExperiencia = Number(prompt("Anos de experiência: "));
+
+  return new CandidatoTecnologia(nome, habilidades, tempoExperiencia);
+}
