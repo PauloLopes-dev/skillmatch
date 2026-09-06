@@ -232,3 +232,66 @@ function calcularCompatibilidade(candidato, vaga) {
     experienciaCandidato: candidato.tempoExperiencia,
   };
 }
+
+// =====================================================
+// 8. CLASSIFICAR COMPATIBILIDADE
+// =====================================================
+
+function classificarCompatibilidade(percentual) {
+  if (percentual >= 80) {
+    return "Alta";
+  }
+
+  if (percentual >= 50) {
+    return "Média";
+  }
+
+  return "Baixa";
+}
+
+// =====================================================
+// 9. ANALISAR TODAS AS VAGAS
+// =====================================================
+
+function analisarCandidato(candidato, vagas) {
+  const resultados = vagas.map((vaga) => {
+    const resultado = calcularCompatibilidade(candidato, vaga);
+
+    return {
+      ...resultado,
+
+      nivel: classificarCompatibilidade(resultado.percentual),
+    };
+  });
+
+  return resultados;
+}
+
+// =====================================================
+// 10. ENCONTRAR A MELHOR VAGA
+// =====================================================
+
+function encontrarMelhorVaga(resultados) {
+  return resultados.reduce((melhor, atual) => {
+    if (atual.percentual > melhor.percentual) {
+      return atual;
+    }
+
+    return melhor;
+  });
+}
+
+// =====================================================
+// 11. CLOSURE
+// =====================================================
+
+// A função guarda dentro dela
+// as habilidades que faltam.
+
+function criarRecomendador(habilidadesFaltantes) {
+  return function () {
+    return habilidadesFaltantes.map((habilidade, indice) => {
+      return `${indice + 1}. Estudar ${habilidade}`;
+    });
+  };
+}
