@@ -295,3 +295,41 @@ function criarRecomendador(habilidadesFaltantes) {
     });
   };
 }
+
+// =====================================================
+// 12. RECOMENDAÇÃO DE ESTUDO
+// =====================================================
+
+function gerarRecomendacao(resultados) {
+  // Junta todas as habilidades faltantes
+
+  const todasHabilidades = resultados.flatMap(
+    (resultado) => resultado.habilidadesFaltantes,
+  );
+
+  // Conta quantas vezes cada habilidade aparece
+
+  const frequencia = todasHabilidades.reduce((contador, habilidade) => {
+    if (contador[habilidade]) {
+      contador[habilidade]++;
+    } else {
+      contador[habilidade] = 1;
+    }
+
+    return contador;
+  }, {});
+
+  // Organiza da mais importante
+  // para a menos frequente
+
+  const habilidadesOrdenadas = Object.entries(frequencia)
+    .sort((a, b) => b[1] - a[1])
+    .map((item) => item[0]);
+
+  // Cria uma Closure
+
+  const recomendador = criarRecomendador(habilidadesOrdenadas);
+  //console.log(habilidadesOrdenadas);//
+
+  return recomendador();
+}
