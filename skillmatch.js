@@ -1,7 +1,7 @@
 const prompt = require("prompt-sync")();
 
 // =====================================================
-// 1. LISTA DE VAGAS
+// 1. LISTA DE VAGAS (Usei IA para perfil de vagas)
 // =====================================================
 
 const vagasDisponiveis = [
@@ -133,28 +133,26 @@ function criarPerfil() {
 }
 
 // =====================================================
-// 5. CALLBACK
+// 5. USO DE CALLBACK
 // =====================================================
 
-// Simulando uma consulta a uma API
+// Simulando uma API que busca as vagas em um servidor
 
-function consultarVagas(simulaApi) {
-  console.log("\nConsultando vagas disponíveis...");
+function buscarVagas(simula_api) {
+  console.log("\nBuscando vagas disponíveis...");
 
   setTimeout(() => {
-    simulaApi(null, vagasDisponiveis);
+    simula_api(null, vagasDisponiveis);
   }, 1500);
 }
 
 // =====================================================
-// 6. PROMISE
+// 6. USO DE PROMISE
 // =====================================================
 
-// Transformamos o callback em Promise
-
-function consultarVagasAsync() {
+function buscarVagasAsync() {
   return new Promise((resolve, reject) => {
-    consultarVagas((erro, vagas) => {
+    buscarVagas((erro, vagas) => {
       if (erro) {
         reject(erro);
       } else {
@@ -165,34 +163,44 @@ function consultarVagasAsync() {
 }
 
 // =====================================================
-// 7. CALCULAR COMPATIBILIDADE
+// 7. DETERMINA PERCENTUAL DE COMPATIBILIDADE
 // =====================================================
 
 function calcularCompatibilidade(candidato, vaga) {
-  // Normaliza as habilidades da vaga
+  // ---------------------------------------------
+  // Normalizar habilidades da vaga uso de map
+  // ---------------------------------------------
 
   const habilidadesVaga = vaga.habilidades.map((habilidade) =>
-    habilidade.toLowerCase(),
+    habilidade.trim().toLowerCase(),
   );
 
-  // Encontra as habilidades que o candidato possui
+  // ---------------------------------------------
+  // Habilidades que o candidato possui de filter
+  // ---------------------------------------------
 
   const habilidadesEncontradas = habilidadesVaga.filter((habilidadeVaga) =>
     candidato.habilidades.includes(habilidadeVaga),
   );
 
-  // Encontra as habilidades que faltam
+  // ---------------------------------------------
+  // Habilidades que faltam uso de filter
+  // ---------------------------------------------
 
   const habilidadesFaltantes = habilidadesVaga.filter(
     (habilidadeVaga) => !candidato.habilidades.includes(habilidadeVaga),
   );
 
-  // Calcula percentual das habilidades
+  // ---------------------------------------------
+  // Percentual de habilidades
+  // ---------------------------------------------
 
   const percentualHabilidades =
     (habilidadesEncontradas.length / habilidadesVaga.length) * 100;
 
-  // Calcula compatibilidade de experiência
+  // ---------------------------------------------
+  // Percentual de experiência
+  // ---------------------------------------------
 
   let percentualExperiencia;
 
@@ -202,16 +210,20 @@ function calcularCompatibilidade(candidato, vaga) {
     percentualExperiencia =
       (candidato.tempoExperiencia / vaga.tempoExperiencia) * 100;
 
+    // Não deixa passar de 100%
+
     if (percentualExperiencia > 100) {
       percentualExperiencia = 100;
     }
   }
-  // =================================================
+
+  // ---------------------------------------------
   // COMPATIBILIDADE FINAL
+  // ---------------------------------------------
   //
-  // 70% habilidades
-  // 30% experiência
-  // =================================================
+  // Habilidades = 70%
+  // Experiência = 30%
+  //
 
   const percentualFinal =
     percentualHabilidades * 0.7 + percentualExperiencia * 0.3;
@@ -234,7 +246,7 @@ function calcularCompatibilidade(candidato, vaga) {
 }
 
 // =====================================================
-// 8. CLASSIFICAR COMPATIBILIDADE
+// 8. CLASSIFICAÇÃO DE COMPATIBILIDADE
 // =====================================================
 
 function classificarCompatibilidade(percentual) {
@@ -250,7 +262,7 @@ function classificarCompatibilidade(percentual) {
 }
 
 // =====================================================
-// 9. ANALISAR TODAS AS VAGAS
+// 9. ANALISAR TODAS AS VAGAS uso do map
 // =====================================================
 
 function analisarCandidato(candidato, vagas) {
@@ -268,7 +280,7 @@ function analisarCandidato(candidato, vagas) {
 }
 
 // =====================================================
-// 10. ENCONTRAR A MELHOR VAGA
+// 10. ENCONTRAR A MELHOR VAGA USO DE REDUCE
 // =====================================================
 
 function encontrarMelhorVaga(resultados) {
@@ -282,11 +294,8 @@ function encontrarMelhorVaga(resultados) {
 }
 
 // =====================================================
-// 11. CLOSURE
+// 11. USO DE CLOSURE
 // =====================================================
-
-// A função guarda dentro dela
-// as habilidades que faltam.
 
 function criarRecomendador(habilidadesFaltantes) {
   return function () {
@@ -297,17 +306,24 @@ function criarRecomendador(habilidadesFaltantes) {
 }
 
 // =====================================================
-// 12. RECOMENDAÇÃO DE ESTUDO
+// 12. GERAR RECOMENDAÇÃO DE ESTUDO VIA REDUCE
 // =====================================================
 
-function gerarRecomendacao(resultados) {
-  // Junta todas as habilidades faltantes
+// ---------------------------------------------
+// Conta quantas vezes cada habilidade consultei o
+// MDN WEB Docs para descobrir este metodo (flatmap)
+// unica coisa que não esta no material das aulas
+// ---------------------------------------------
 
+function gerarRecomendacao(resultados) {
   const todasHabilidades = resultados.flatMap(
     (resultado) => resultado.habilidadesFaltantes,
   );
 
-  // Conta quantas vezes cada habilidade aparece
+  // ---------------------------------------------
+  // Conta quantas vezes cada habilidade
+  // aparece
+  // ---------------------------------------------
 
   const frequencia = todasHabilidades.reduce((contador, habilidade) => {
     if (contador[habilidade]) {
@@ -319,17 +335,155 @@ function gerarRecomendacao(resultados) {
     return contador;
   }, {});
 
-  // Organiza da mais importante
-  // para a menos frequente
+  // ---------------------------------------------
+  // Ordena as habilidades
+  // mais importantes (usei ajuda da IA) para fazer esta parte.
+  // ---------------------------------------------
 
   const habilidadesOrdenadas = Object.entries(frequencia)
+
     .sort((a, b) => b[1] - a[1])
+
     .map((item) => item[0]);
 
-  // Cria uma Closure
+  // ---------------------------------------------
+  // CRIA CLOSURE
+  // ---------------------------------------------
 
   const recomendador = criarRecomendador(habilidadesOrdenadas);
-  //console.log(habilidadesOrdenadas);//
 
   return recomendador();
 }
+
+// =====================================================
+// 13. EXIBIR RESULTADOS
+// =====================================================
+
+function exibirResultados(candidato, resultados, melhorVaga) {
+  console.log("\n");
+  console.log("==========================================");
+  console.log("           RESULTADO SKILLMATCH");
+  console.log("==========================================");
+
+  console.log(`Candidato: ${candidato.nome}`);
+
+  console.log(`Experiência: ${candidato.tempoExperiencia} anos`);
+
+  console.log(`Habilidades: ${candidato.habilidades.join(", ")}`);
+
+  console.log("\n");
+  console.log("==========================================");
+  console.log("     COMPATIBILIDADE COM TODAS AS VAGAS");
+  console.log("==========================================\n");
+
+  resultados.forEach((resultado) => {
+    console.log(`${resultado.vaga} - ${resultado.area}`);
+
+    console.log(`Compatibilidade: ${resultado.percentual}%`);
+
+    console.log(`Classificação: ${resultado.nivel}`);
+
+    console.log(
+      `Habilidades encontradas: ${
+        resultado.habilidadesEncontradas.join(", ") || "Nenhuma"
+      }`,
+    );
+
+    console.log(
+      `Habilidades faltantes: ${
+        resultado.habilidadesFaltantes.join(", ") || "Nenhuma"
+      }`,
+    );
+
+    console.log(`Experiência exigida: ${resultado.experienciaExigida} anos`);
+
+    console.log(`Sua experiência: ${resultado.experienciaCandidato} anos`);
+
+    console.log("------------------------------------------");
+  });
+
+  // =================================================
+  // MELHOR VAGA
+  // =================================================
+
+  console.log("\n");
+  console.log("==========================================");
+  console.log("             MELHOR VAGA");
+  console.log("==========================================\n");
+
+  console.log(`Vaga: ${melhorVaga.vaga}`);
+
+  console.log(`Área: ${melhorVaga.area}`);
+
+  console.log(`Compatibilidade: ${melhorVaga.percentual}%`);
+
+  console.log(`Classificação: ${melhorVaga.nivel}`);
+
+  // =================================================
+  // RECOMENDAÇÃO
+  // =================================================
+
+  console.log("\n");
+  console.log("==========================================");
+  console.log("        RECOMENDAÇÃO DE ESTUDO");
+  console.log("==========================================\n");
+
+  const recomendacoes = gerarRecomendacao(resultados);
+
+  if (recomendacoes.length === 0) {
+    console.log("Você possui todas as habilidades necessárias!");
+  } else {
+    recomendacoes.forEach((recomendacao) => {
+      console.log(recomendacao);
+    });
+  }
+}
+
+// =====================================================
+// 14. USO DE ASYNC/AWAIT
+// =====================================================
+
+async function main() {
+  try {
+    // ---------------------------------------------
+    // CRIA PERFIL
+    // ---------------------------------------------
+
+    const candidato = criarPerfil();
+
+    // ---------------------------------------------
+    // BUSCA VAGAS
+    // ---------------------------------------------
+    //
+    // await espera a Promise terminar
+    //
+
+    const vagas = await buscarVagasAsync();
+
+    // ---------------------------------------------
+    // COMPARA COM TODAS AS VAGAS
+    // ---------------------------------------------
+
+    const resultados = analisarCandidato(candidato, vagas);
+
+    // ---------------------------------------------
+    // ENCONTRA A MELHOR
+    // ---------------------------------------------
+
+    const melhorVaga = encontrarMelhorVaga(resultados);
+
+    // ---------------------------------------------
+    // MOSTRA RESULTADO
+    // ---------------------------------------------
+
+    exibirResultados(candidato, resultados, melhorVaga);
+  } catch (erro) {
+    console.log("Erro:", erro.message);
+  }
+}
+
+// =====================================================
+// 15. EXECUTAR
+// =====================================================
+
+main();
