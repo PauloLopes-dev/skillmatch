@@ -1,7 +1,8 @@
-const prompt = require("promptSync")();
+const prompt = require("prompt-sync")();
 
 // =====================================================
-// 1. LISTA DE VAGAS
+// 1. LISTA DE VAGAS Usado IA para definição do perfil
+// das vagas
 // =====================================================
 
 const vagasDisponiveis = [
@@ -309,6 +310,12 @@ function criarRecomendador(habilidadesFaltantes) {
 // 12. GERAR RECOMENDAÇÃO DE ESTUDO VIA REDUCE
 // =====================================================
 
+// ---------------------------------------------
+// Pesquisei no MDN WEB DOCS o metodo flatmap
+// não consta das aulas mas achei adequado usar
+// para melhorar o resultado do projeto.
+// ---------------------------------------------
+
 function gerarRecomendacao(resultados) {
   const todasHabilidades = resultados.flatMap(
     (resultado) => resultado.habilidadesFaltantes,
@@ -332,6 +339,7 @@ function gerarRecomendacao(resultados) {
   // ---------------------------------------------
   // Ordena as habilidades
   // mais importantes
+  // elaborado com auxilio de IA
   // ---------------------------------------------
 
   const habilidadesOrdenadas = Object.entries(frequencia)
