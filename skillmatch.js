@@ -1,7 +1,11 @@
 const prompt = require("prompt-sync")();
 
 // =====================================================
+<<<<<<< HEAD
 // 1. LISTA DE VAGAS (Usei IA para perfil de vagas)
+=======
+// 1. LISTA DE VAGAS
+>>>>>>> 958a2f22ffa196a1d2c753d5b6edbf59912074c6
 // =====================================================
 
 const vagasDisponiveis = [
@@ -133,6 +137,7 @@ function criarPerfil() {
 }
 
 // =====================================================
+<<<<<<< HEAD
 // 5. USO DE CALLBACK
 // =====================================================
 
@@ -143,16 +148,39 @@ function buscarVagas(simula_api) {
 
   setTimeout(() => {
     simula_api(null, vagasDisponiveis);
+=======
+// 5. CALLBACK
+// =====================================================
+
+// Simulando uma consulta a uma API
+
+function consultarVagas(simulaApi) {
+  console.log("\nConsultando vagas disponíveis...");
+
+  setTimeout(() => {
+    simulaApi(null, vagasDisponiveis);
+>>>>>>> 958a2f22ffa196a1d2c753d5b6edbf59912074c6
   }, 1500);
 }
 
 // =====================================================
+<<<<<<< HEAD
 // 6. USO DE PROMISE
 // =====================================================
 
 function buscarVagasAsync() {
   return new Promise((resolve, reject) => {
     buscarVagas((erro, vagas) => {
+=======
+// 6. PROMISE
+// =====================================================
+
+// Transformamos o callback em Promise
+
+function consultarVagasAsync() {
+  return new Promise((resolve, reject) => {
+    consultarVagas((erro, vagas) => {
+>>>>>>> 958a2f22ffa196a1d2c753d5b6edbf59912074c6
       if (erro) {
         reject(erro);
       } else {
@@ -163,6 +191,7 @@ function buscarVagasAsync() {
 }
 
 // =====================================================
+<<<<<<< HEAD
 // 7. DETERMINA PERCENTUAL DE COMPATIBILIDADE
 // =====================================================
 
@@ -178,29 +207,54 @@ function calcularCompatibilidade(candidato, vaga) {
   // ---------------------------------------------
   // Habilidades que o candidato possui de filter
   // ---------------------------------------------
+=======
+// 7. CALCULAR COMPATIBILIDADE
+// =====================================================
+
+function calcularCompatibilidade(candidato, vaga) {
+  // Normaliza as habilidades da vaga
+
+  const habilidadesVaga = vaga.habilidades.map((habilidade) =>
+    habilidade.toLowerCase(),
+  );
+
+  // Encontra as habilidades que o candidato possui
+>>>>>>> 958a2f22ffa196a1d2c753d5b6edbf59912074c6
 
   const habilidadesEncontradas = habilidadesVaga.filter((habilidadeVaga) =>
     candidato.habilidades.includes(habilidadeVaga),
   );
 
+<<<<<<< HEAD
   // ---------------------------------------------
   // Habilidades que faltam uso de filter
   // ---------------------------------------------
+=======
+  // Encontra as habilidades que faltam
+>>>>>>> 958a2f22ffa196a1d2c753d5b6edbf59912074c6
 
   const habilidadesFaltantes = habilidadesVaga.filter(
     (habilidadeVaga) => !candidato.habilidades.includes(habilidadeVaga),
   );
 
+<<<<<<< HEAD
   // ---------------------------------------------
   // Percentual de habilidades
   // ---------------------------------------------
+=======
+  // Calcula percentual das habilidades
+>>>>>>> 958a2f22ffa196a1d2c753d5b6edbf59912074c6
 
   const percentualHabilidades =
     (habilidadesEncontradas.length / habilidadesVaga.length) * 100;
 
+<<<<<<< HEAD
   // ---------------------------------------------
   // Percentual de experiência
   // ---------------------------------------------
+=======
+  // Calcula compatibilidade de experiência
+>>>>>>> 958a2f22ffa196a1d2c753d5b6edbf59912074c6
 
   let percentualExperiencia;
 
@@ -210,12 +264,16 @@ function calcularCompatibilidade(candidato, vaga) {
     percentualExperiencia =
       (candidato.tempoExperiencia / vaga.tempoExperiencia) * 100;
 
+<<<<<<< HEAD
     // Não deixa passar de 100%
 
+=======
+>>>>>>> 958a2f22ffa196a1d2c753d5b6edbf59912074c6
     if (percentualExperiencia > 100) {
       percentualExperiencia = 100;
     }
   }
+<<<<<<< HEAD
 
   // ---------------------------------------------
   // COMPATIBILIDADE FINAL
@@ -224,6 +282,14 @@ function calcularCompatibilidade(candidato, vaga) {
   // Habilidades = 70%
   // Experiência = 30%
   //
+=======
+  // =================================================
+  // COMPATIBILIDADE FINAL
+  //
+  // 70% habilidades
+  // 30% experiência
+  // =================================================
+>>>>>>> 958a2f22ffa196a1d2c753d5b6edbf59912074c6
 
   const percentualFinal =
     percentualHabilidades * 0.7 + percentualExperiencia * 0.3;
@@ -246,7 +312,11 @@ function calcularCompatibilidade(candidato, vaga) {
 }
 
 // =====================================================
+<<<<<<< HEAD
 // 8. CLASSIFICAÇÃO DE COMPATIBILIDADE
+=======
+// 8. CLASSIFICAR COMPATIBILIDADE
+>>>>>>> 958a2f22ffa196a1d2c753d5b6edbf59912074c6
 // =====================================================
 
 function classificarCompatibilidade(percentual) {
@@ -262,7 +332,11 @@ function classificarCompatibilidade(percentual) {
 }
 
 // =====================================================
+<<<<<<< HEAD
 // 9. ANALISAR TODAS AS VAGAS uso do map
+=======
+// 9. ANALISAR TODAS AS VAGAS
+>>>>>>> 958a2f22ffa196a1d2c753d5b6edbf59912074c6
 // =====================================================
 
 function analisarCandidato(candidato, vagas) {
@@ -280,7 +354,11 @@ function analisarCandidato(candidato, vagas) {
 }
 
 // =====================================================
+<<<<<<< HEAD
 // 10. ENCONTRAR A MELHOR VAGA USO DE REDUCE
+=======
+// 10. ENCONTRAR A MELHOR VAGA
+>>>>>>> 958a2f22ffa196a1d2c753d5b6edbf59912074c6
 // =====================================================
 
 function encontrarMelhorVaga(resultados) {
@@ -294,9 +372,18 @@ function encontrarMelhorVaga(resultados) {
 }
 
 // =====================================================
+<<<<<<< HEAD
 // 11. USO DE CLOSURE
 // =====================================================
 
+=======
+// 11. CLOSURE
+// =====================================================
+
+// A função guarda dentro dela
+// as habilidades que faltam.
+
+>>>>>>> 958a2f22ffa196a1d2c753d5b6edbf59912074c6
 function criarRecomendador(habilidadesFaltantes) {
   return function () {
     return habilidadesFaltantes.map((habilidade, indice) => {
@@ -306,6 +393,7 @@ function criarRecomendador(habilidadesFaltantes) {
 }
 
 // =====================================================
+<<<<<<< HEAD
 // 12. GERAR RECOMENDAÇÃO DE ESTUDO VIA REDUCE
 // =====================================================
 
@@ -316,14 +404,26 @@ function criarRecomendador(habilidadesFaltantes) {
 // ---------------------------------------------
 
 function gerarRecomendacao(resultados) {
+=======
+// 12. RECOMENDAÇÃO DE ESTUDO
+// =====================================================
+
+function gerarRecomendacao(resultados) {
+  // Junta todas as habilidades faltantes
+
+>>>>>>> 958a2f22ffa196a1d2c753d5b6edbf59912074c6
   const todasHabilidades = resultados.flatMap(
     (resultado) => resultado.habilidadesFaltantes,
   );
 
+<<<<<<< HEAD
   // ---------------------------------------------
   // Conta quantas vezes cada habilidade
   // aparece
   // ---------------------------------------------
+=======
+  // Conta quantas vezes cada habilidade aparece
+>>>>>>> 958a2f22ffa196a1d2c753d5b6edbf59912074c6
 
   const frequencia = todasHabilidades.reduce((contador, habilidade) => {
     if (contador[habilidade]) {
@@ -335,6 +435,7 @@ function gerarRecomendacao(resultados) {
     return contador;
   }, {});
 
+<<<<<<< HEAD
   // ---------------------------------------------
   // Ordena as habilidades
   // mais importantes (usei ajuda da IA) para fazer esta parte.
@@ -487,3 +588,19 @@ async function main() {
 // =====================================================
 
 main();
+=======
+  // Organiza da mais importante
+  // para a menos frequente
+
+  const habilidadesOrdenadas = Object.entries(frequencia)
+    .sort((a, b) => b[1] - a[1])
+    .map((item) => item[0]);
+
+  // Cria uma Closure
+
+  const recomendador = criarRecomendador(habilidadesOrdenadas);
+  //console.log(habilidadesOrdenadas);//
+
+  return recomendador();
+}
+>>>>>>> 958a2f22ffa196a1d2c753d5b6edbf59912074c6
