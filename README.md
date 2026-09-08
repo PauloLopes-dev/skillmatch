@@ -51,7 +51,7 @@ cd seu-projeto
 ### 3. Instale as dependências do backend
 
 ```bash
-npm install``
+npm  install prompt-sync
 
 ---
 
